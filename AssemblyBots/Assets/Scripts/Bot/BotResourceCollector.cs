@@ -4,7 +4,7 @@ public class BotResourceCollector : MonoBehaviour
 {
     [SerializeField] private Transform _box;
 
-    private bool _isCarryingResource = false;
+    private bool _isCarryingResource = false;    
 
     public bool IsCarryingResource => _isCarryingResource;
 

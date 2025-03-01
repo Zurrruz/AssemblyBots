@@ -34,6 +34,7 @@ public class BotController : MonoBehaviour
             _baseController.RemoveAssignedResource(_targetResource);
             _botMover.MoveStop();
             _baseController.AddBotAvailable(this);
+            _baseController.IncreaseNumberResources();
         }
     }
 

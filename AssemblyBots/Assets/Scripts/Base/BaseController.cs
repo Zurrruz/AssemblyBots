@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +8,8 @@ public class BaseController : MonoBehaviour
 
     private Queue<BotController> _availableBots;
     private HashSet<Resource> assignedResources;
+
+    public event Action ResourceDelivered;
 
     private void Awake()
     {
@@ -52,5 +55,10 @@ public class BaseController : MonoBehaviour
     {
         if (assignedResources.Contains(resource))
             assignedResources.Remove(resource);
+    }
+
+    public void IncreaseNumberResources()
+    {
+        ResourceDelivered?.Invoke();
     }
 }
