@@ -5,7 +5,7 @@ public class PooledObject : MonoBehaviour
 {
     public event Action<PooledObject> Finished;
 
-    public void Back()
+    protected void Back()
     {
         Finished?.Invoke(this);
     }

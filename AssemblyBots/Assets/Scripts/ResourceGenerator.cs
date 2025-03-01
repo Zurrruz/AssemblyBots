@@ -5,7 +5,7 @@ using UnityEngine;
 public class ResourceGenerator : MonoBehaviour
 {
     [SerializeField] private ObjectPool _pool;
-    [SerializeField] private int _maxCount = 10;
+    [SerializeField] private int _maxCount = 100;
     [SerializeField] private float _minDistance = 2f;
     [SerializeField] private float spawnInterval = 2f;
     [SerializeField] private float baseRadius = 5f;
@@ -13,10 +13,10 @@ public class ResourceGenerator : MonoBehaviour
     private float _currentCount = 0;
 
     private float _positionY = 0.5f;
-    private float _minMapRangeX = -50f;
-    private float _maxMapRangeX = 50f;
-    private float _minMapRangeZ = -50f;
-    private float _maxMapRangeZ = 50f;
+    private float _minMapRangeX = -10f;
+    private float _maxMapRangeX = 10f;
+    private float _minMapRangeZ = -10f;
+    private float _maxMapRangeZ = 10f;
 
     private Vector3 basePosition;
 
