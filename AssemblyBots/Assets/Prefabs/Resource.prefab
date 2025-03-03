@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7949654345474214655}
   - component: {fileID: 4794482283300005451}
   - component: {fileID: 4638106948270072045}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Resource
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,7 +100,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -118,9 +118,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57c6e37e081f4234f93b558ec5eba923, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _obstacleLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  _defaultLeyer:
-    serializedVersion: 2
-    m_Bits: 1
+  collider: {fileID: 4794482283300005451}

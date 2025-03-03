@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2168921978819505048}
   - component: {fileID: 6280658400946192211}
   - component: {fileID: 6722731091273158229}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: LeftHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103,10 +103,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5000001
-  m_Height: 2.5107133
+  m_Radius: 1.1635251
+  m_Height: 2.0491192
   m_Direction: 1
-  m_Center: {x: 0.000000074505806, y: 0.2553568, z: -0.0000000745058}
+  m_Center: {x: 0.000000074505806, y: 0.024559617, z: 0.6635244}
 --- !u!1 &2361734030798268017
 GameObject:
   m_ObjectHideFlags: 0
@@ -116,7 +116,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5213980366998171301}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BoxResourse
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -155,7 +155,8 @@ GameObject:
   - component: {fileID: 8379936479548514856}
   - component: {fileID: 767022875015244162}
   - component: {fileID: -470668206916407076}
-  m_Layer: 0
+  - component: {fileID: 4481956097434594393}
+  m_Layer: 6
   m_Name: Bot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -308,12 +309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0811c372c0a253b4a941a6a3bc225f63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 5
-  _rotationSpeed: 5
-  _obstacleAvoidanceDistance: 2
-  _obstacleLayer:
-    serializedVersion: 2
-    m_Bits: 64
+  _agent: {fileID: 4481956097434594393}
 --- !u!114 &767022875015244162
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -339,6 +335,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8760119ca879a942846aae4989f4b8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!195 &4481956097434594393
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6954034753876406889}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 500
+  m_StoppingDistance: 1
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 1
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &7019529160786879169
 GameObject:
   m_ObjectHideFlags: 0
@@ -351,7 +369,7 @@ GameObject:
   - component: {fileID: 478808132625338314}
   - component: {fileID: 3539495887867980677}
   - component: {fileID: 7409306782959811468}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RightHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -442,7 +460,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5000001
-  m_Height: 2.499403
+  m_Radius: 1.2140247
+  m_Height: 2.1031067
   m_Direction: 1
-  m_Center: {x: 0.000000074505806, y: 0.2497015, z: -0.000000074505806}
+  m_Center: {x: 0.000000074505806, y: 0.05155337, z: 0.71402395}

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ResourceScanner : MonoBehaviour
 {
-    [SerializeField] private float scanRadius = 20f; 
-    [SerializeField] private float scanInterval = 5f;
+    [SerializeField] private float _scanRadius = 20f; 
+    [SerializeField] private float _scanInterval = 5f;
 
     private WaitForSeconds _delay;
 
@@ -13,7 +13,7 @@ public class ResourceScanner : MonoBehaviour
 
     private void Awake()
     {       
-        _delay = new WaitForSeconds(scanInterval);
+        _delay = new WaitForSeconds(_scanInterval);
     }
 
     void Start()
@@ -25,11 +25,11 @@ public class ResourceScanner : MonoBehaviour
     {
         while (enabled)
         {
-            Collider[] hitColliders = Physics.OverlapSphere(transform.position, scanRadius);
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, _scanRadius);
 
             foreach (var hitCollider in hitColliders)
-                if (hitCollider.TryGetComponent(out Resource resourse))
-                    DiscoveredResource?.Invoke(resourse);
+                if (hitCollider.TryGetComponent(out Resource resource))
+                    DiscoveredResource?.Invoke(resource);
 
             yield return _delay;
         }

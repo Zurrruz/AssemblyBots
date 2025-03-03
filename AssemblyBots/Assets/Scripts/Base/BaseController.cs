@@ -6,10 +6,12 @@ public class BaseController : MonoBehaviour
 {
     [SerializeField] private ResourceScanner _resourceScanner;
 
+    private int _resourceCount = 0;
+
     private Queue<BotController> _availableBots;
     private HashSet<Resource> assignedResources;
 
-    public event Action ResourceDelivered;
+    public event Action<int> ResourceDelivered;
 
     private void Awake()
     {
@@ -59,6 +61,7 @@ public class BaseController : MonoBehaviour
 
     public void IncreaseNumberResources()
     {
-        ResourceDelivered?.Invoke();
+        _resourceCount++;
+        ResourceDelivered?.Invoke(_resourceCount);
     }
 }

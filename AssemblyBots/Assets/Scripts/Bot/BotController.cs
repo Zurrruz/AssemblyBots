@@ -30,9 +30,10 @@ public class BotController : MonoBehaviour
     {
         if (_botResourceCollector.IsCarryingResource)
         {
+            _targetResource.UploadBase();
+
             _botResourceCollector.DeliverResource(_targetResource);
             _baseController.RemoveAssignedResource(_targetResource);
-            _botMover.MoveStop();
             _baseController.AddBotAvailable(this);
             _baseController.IncreaseNumberResources();
         }
