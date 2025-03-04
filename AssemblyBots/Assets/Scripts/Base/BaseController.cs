@@ -1,17 +1,32 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BaseController : MonoBehaviour
 {
+    [SerializeField] private BaseController _basePrefab;
+    [SerializeField] private FlagController _flagPrefab;
     [SerializeField] private ResourceScanner _resourceScanner;
+    [SerializeField] private BotGenerator _botGenerator;
 
+    [SerializeField] private Renderer _renderer;
+
+    private FlagController _currentFlag;
+
+    private int _resourcesRequired = 5;
     private int _resourceCount = 0;
+    private int _botCount = 3;
+    private int _minNumberBot = 1;
+
+    private Coroutine _currentCoroutine;
 
     private Queue<BotController> _availableBots;
     private HashSet<Resource> assignedResources;
 
-    public event Action<int> ResourceDelivered;
+    public bool IsBuildingNewBase { get; private set; } = false;
+
+    public event Action<int> ResourceChanged;
 
     private void Awake()
     {
@@ -22,11 +37,13 @@ public class BaseController : MonoBehaviour
     private void OnEnable()
     {
         _resourceScanner.DiscoveredResource += HandleResourceFound;
+        _botGenerator.Created += ExpendResource;
     }
 
     private void OnDisable()
     {
         _resourceScanner.DiscoveredResource -= HandleResourceFound;
+        _botGenerator.Created -= ExpendResource;
     }
 
     private void HandleResourceFound(Resource resource)
@@ -46,7 +63,63 @@ public class BaseController : MonoBehaviour
             bot.ObtainResource(resource);
         }
     }
-    
+
+    private void ExpendResource(int numberResource)
+    {
+        _resourceCount -= numberResource;
+        ResourceChanged?.Invoke(_resourceCount);
+
+        _botCount++;
+    }
+
+    private IEnumerator CreateNewBase()
+    {
+        while (IsBuildingNewBase == true)
+        {
+            if (_resourceCount >= _resourcesRequired && _botCount > 1)
+            {
+                if (_availableBots.Count > 0)
+                {
+                    IsBuildingNewBase = false;
+
+                    SendUnitBuildNewBase();
+
+                    _resourceCount -= _resourcesRequired;
+                    ResourceChanged?.Invoke(_resourceCount);
+                }
+            }
+
+            yield return null;
+        }
+    }
+
+    private void SendUnitBuildNewBase()
+    {
+        BotController bot = _availableBots.Dequeue();
+
+        bot.CreateNewBase(_currentFlag, _basePrefab);
+    }
+
+    public void PlaceFlag(Vector3 position)
+    {
+        if (_currentFlag != null)
+            _currentFlag.transform.position = position;
+        else
+            _currentFlag = Instantiate(_flagPrefab, position, Quaternion.identity);
+
+        IsBuildingNewBase = true;
+
+        if (_currentCoroutine != null)
+            StopCoroutine(_currentCoroutine);
+
+        _currentCoroutine = StartCoroutine(CreateNewBase());
+    }
+
+    public bool CanPlaceFlag()
+    {
+        return _botCount > _minNumberBot;
+    }
+
     public void AddBotAvailable(BotController bot)
     {
         if (_availableBots.Contains(bot) == false)
@@ -62,6 +135,16 @@ public class BaseController : MonoBehaviour
     public void IncreaseNumberResources()
     {
         _resourceCount++;
-        ResourceDelivered?.Invoke(_resourceCount);
+        ResourceChanged?.Invoke(_resourceCount);
+    }
+
+    public void ChangeColor(Color color)
+    {
+        _renderer.material.color = color;
+    }
+
+    public void DefaultBot()
+    {
+        _botCount = 1;
     }
 }

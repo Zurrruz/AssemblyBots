@@ -8,18 +8,19 @@ public class ResourceGenerator : MonoBehaviour
     [SerializeField] private int _maxCount = 100;
     [SerializeField] private float _minDistance = 2f;
     [SerializeField] private float _spawnInterval = 2f;
-    [SerializeField] private float _baseRadius = 5f;
+    [SerializeField] private float _baseRadius = 1f;
+    [SerializeField] private Transform basePosition;
 
     private float _currentCount = 0;
 
     private float _positionY = 0.5f;
-    private float _minMapRangeX = -10f;
-    private float _maxMapRangeX = 10f;
-    private float _minMapRangeZ = -10f;
-    private float _maxMapRangeZ = 10f;
+    private float _minMapRangeX = -20f;
+    private float _maxMapRangeX = 20f;
+    private float _minMapRangeZ = -20f;
+    private float _maxMapRangeZ = 20f;
 
-    private Vector3 basePosition;
-
+    private Vector3 _centr;
+    
     private WaitForSeconds _delay;
 
     private List<Vector3> _spawnedPositions;
@@ -28,13 +29,15 @@ public class ResourceGenerator : MonoBehaviour
     {
         _spawnedPositions = new List<Vector3>();
 
-        basePosition = Vector3.zero;
+        _centr = Vector3.zero;
 
         _delay = new WaitForSeconds(_spawnInterval);
     }
 
     private void Start()
     {
+        _spawnedPositions.Add(basePosition.position);
+
         StartCoroutine(GenerateObjects());
     }
 
@@ -74,7 +77,7 @@ public class ResourceGenerator : MonoBehaviour
 
     private bool IsInsideBaseArea(Vector3 position)
     {
-        return Vector3.Distance(position, basePosition) <= _baseRadius;
+        return Vector3.Distance(position, _centr) <= _baseRadius;
     }
 
     private bool IsTooCloseOthers(Vector3 position)

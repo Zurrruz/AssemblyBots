@@ -8,12 +8,12 @@ public class ScoreView : MonoBehaviour
 
     private void OnEnable()
     {
-        _baseController.ResourceDelivered += ShowCount;
+        _baseController.ResourceChanged += ShowCount;
     }
 
     private void OnDisable()
     {
-        _baseController.ResourceDelivered -= ShowCount;
+        _baseController.ResourceChanged -= ShowCount;
     }
 
     private void ShowCount(int count)

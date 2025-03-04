@@ -8,5 +8,10 @@ public class BotMover : MonoBehaviour
     public void AssignTarget(GameObject target)
     {
         _agent.SetDestination(target.transform.position);
-    }  
+    }
+
+    public void ResetPath()
+    {
+        _agent.ResetPath();
+    }
 }

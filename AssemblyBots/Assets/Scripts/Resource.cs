@@ -1,9 +1,8 @@
 using UnityEngine;
-using UnityEngine.AI;
 
 public class Resource : PooledObject
 {
-    [SerializeField] private Collider collider;
+    [SerializeField] private new Collider collider;
 
     private void OnEnable()
     {

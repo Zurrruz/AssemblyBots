@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1524122941660682154
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2409467197568866776}
+  m_Layer: 7
+  m_Name: Box
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2409467197568866776
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1524122941660682154}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.464, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7679835352363812775}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2041424870636558781
 GameObject:
   m_ObjectHideFlags: 0
@@ -15,12 +46,13 @@ GameObject:
   - component: {fileID: 437036826582921666}
   - component: {fileID: 4327923518258230966}
   - component: {fileID: 8327648031170700114}
-  - component: {fileID: 1459231555146221748}
-  m_Layer: 6
+  - component: {fileID: 7002375273567626414}
+  - component: {fileID: 9020244248449372660}
+  m_Layer: 7
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
+  m_NavMeshLayer: 1
   m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &7679835352363812775
@@ -35,7 +67,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2409467197568866776}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &541862489078716716
@@ -66,7 +99,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9e7db275923efdb4e9944a67310f5bb9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -103,7 +136,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -148,7 +181,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4177e4f6a0825443be3973be94f70d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _basePrefab: {fileID: 4327923518258230966}
+  _flagPrefab: {fileID: 3941477576059813784, guid: 368c8c1a30a2fb842b09ac59c7b85620, type: 3}
   _resourceScanner: {fileID: 8327648031170700114}
+  _botGenerator: {fileID: 7002375273567626414}
+  _renderer: {fileID: 5977687558855391791}
 --- !u!114 &8327648031170700114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -161,9 +198,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52deeab0f0fede24da3bdcfeaae6ce17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scanRadius: 20
-  scanInterval: 2
---- !u!114 &1459231555146221748
+  _scanRadius: 20
+  _scanInterval: 5
+--- !u!114 &7002375273567626414
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -172,7 +209,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 2041424870636558781}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6d87b32ce6ba7a43b872765e5026ef7, type: 3}
+  m_Script: {fileID: 11500000, guid: ba907e26860a9d74e91dd77cf211f3fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _botPrefab: {fileID: 5911632532230053936, guid: 141d72b1eb3cee240b25ebacd7907d17, type: 3}
+  _box: {fileID: 2409467197568866776}
   _baseController: {fileID: 4327923518258230966}
+  _numberResourcesPerUnit: 3
+--- !u!208 &9020244248449372660
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2041424870636558781}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 0.5, y: 0.25, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
