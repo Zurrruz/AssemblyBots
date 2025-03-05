@@ -6,13 +6,11 @@ using UnityEngine;
 public class BaseController : MonoBehaviour
 {
     [SerializeField] private BaseController _basePrefab;
-    [SerializeField] private FlagController _flagPrefab;
     [SerializeField] private ResourceScanner _resourceScanner;
     [SerializeField] private BotGenerator _botGenerator;
+    [SerializeField] private FlagInstaller _flaInstaller;
 
     [SerializeField] private Renderer _renderer;
-
-    private FlagController _currentFlag;
 
     private int _resourcesRequired = 5;
     private int _resourceCount = 0;
@@ -44,68 +42,11 @@ public class BaseController : MonoBehaviour
     {
         _resourceScanner.DiscoveredResource -= HandleResourceFound;
         _botGenerator.Created -= ExpendResource;
-    }
-
-    private void HandleResourceFound(Resource resource)
-    {
-        if (assignedResources.Contains(resource) == false)
-            SendBotResource(resource);
-    }
-
-    private void SendBotResource(Resource resource)
-    {
-        if (_availableBots.Count > 0)
-        {
-            BotController bot = _availableBots.Dequeue();
-
-            assignedResources.Add(resource);
-
-            bot.ObtainResource(resource);
-        }
-    }
-
-    private void ExpendResource(int numberResource)
-    {
-        _resourceCount -= numberResource;
-        ResourceChanged?.Invoke(_resourceCount);
-
-        _botCount++;
-    }
-
-    private IEnumerator CreateNewBase()
-    {
-        while (IsBuildingNewBase == true)
-        {
-            if (_resourceCount >= _resourcesRequired && _botCount > 1)
-            {
-                if (_availableBots.Count > 0)
-                {
-                    IsBuildingNewBase = false;
-
-                    SendUnitBuildNewBase();
-
-                    _resourceCount -= _resourcesRequired;
-                    ResourceChanged?.Invoke(_resourceCount);
-                }
-            }
-
-            yield return null;
-        }
-    }
-
-    private void SendUnitBuildNewBase()
-    {
-        BotController bot = _availableBots.Dequeue();
-
-        bot.CreateNewBase(_currentFlag, _basePrefab);
-    }
+    }      
 
     public void PlaceFlag(Vector3 position)
     {
-        if (_currentFlag != null)
-            _currentFlag.transform.position = position;
-        else
-            _currentFlag = Instantiate(_flagPrefab, position, Quaternion.identity);
+        _flaInstaller.Create(position);
 
         IsBuildingNewBase = true;
 
@@ -135,6 +76,7 @@ public class BaseController : MonoBehaviour
     public void IncreaseNumberResources()
     {
         _resourceCount++;
+
         ResourceChanged?.Invoke(_resourceCount);
     }
 
@@ -146,5 +88,60 @@ public class BaseController : MonoBehaviour
     public void DefaultBot()
     {
         _botCount = 1;
+    }
+
+    private void HandleResourceFound(Resource resource)
+    {
+        if (assignedResources.Contains(resource) == false)
+            SendBotResource(resource);
+    }
+
+    private void SendBotResource(Resource resource)
+    {
+        if (_availableBots.Count > 0)
+        {
+            BotController bot = _availableBots.Dequeue();
+
+            assignedResources.Add(resource);
+
+            bot.ObtainResource(resource);
+        }
+    }
+
+    private void ExpendResource(int numberResource)
+    {
+        _resourceCount -= numberResource;
+
+        _botCount++;
+
+        ResourceChanged?.Invoke(_resourceCount);
+    }
+
+    private IEnumerator CreateNewBase()
+    {
+        while (IsBuildingNewBase == true)
+        {
+            if (_resourceCount >= _resourcesRequired && _botCount > 1)
+            {
+                if (_availableBots.Count > 0)
+                {
+                    IsBuildingNewBase = false;
+
+                    SendUnitBuildNewBase();
+
+                    _resourceCount -= _resourcesRequired;
+                    ResourceChanged?.Invoke(_resourceCount);
+                }
+            }
+
+            yield return null;
+        }
+    }
+
+    private void SendUnitBuildNewBase()
+    {
+        BotController bot = _availableBots.Dequeue();
+
+        bot.CreateNewBase(_flaInstaller.CurrentFlag.transform, _basePrefab);
     }
 }

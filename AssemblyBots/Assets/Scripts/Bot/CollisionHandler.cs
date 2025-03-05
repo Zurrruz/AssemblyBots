@@ -17,5 +17,10 @@ public class CollisionHandler : MonoBehaviour
         {
             ResourceReached?.Invoke(resource);
         }
+
+        if(other.TryGetComponent(out FlagController flag))
+        {
+            flag.gameObject.SetActive(false);
+        }
     }
 }

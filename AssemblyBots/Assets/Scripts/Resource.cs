@@ -2,16 +2,16 @@ using UnityEngine;
 
 public class Resource : PooledObject
 {
-    [SerializeField] private new Collider collider;
+    [SerializeField] private Collider _collider;
 
     private void OnEnable()
     {
-        collider.enabled = true;
+        _collider.enabled = true;
     }
 
     public void DisableObstacleParameter()
     {
-        collider.enabled = false;
+        _collider.enabled = false;
     }
 
     public void UploadBase()

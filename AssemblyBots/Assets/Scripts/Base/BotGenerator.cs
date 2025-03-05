@@ -24,7 +24,7 @@ public class BotGenerator : MonoBehaviour
     {
         if (resource >= _numberResourcesPerUnit && _baseController.IsBuildingNewBase == false)
         {
-            var bot = Instantiate(_botPrefab, _box.position, Quaternion.identity);
+            BotController bot = Instantiate(_botPrefab, _box.position, Quaternion.identity);
             bot.AssignBase(_baseController);
 
             Created?.Invoke(_numberResourcesPerUnit);

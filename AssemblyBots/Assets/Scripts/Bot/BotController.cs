@@ -26,7 +26,28 @@ public class BotController : MonoBehaviour
         _collisionHandler.ResourceReached -= CollectResource;
         _collisionHandler.BaseReached -= UploadResource;
     }
-    
+
+    public void CreateNewBase(Transform flag, BaseController baseController)
+    {
+        _baseController = baseController;
+
+        _botMover.AssignTarget(flag.gameObject);
+
+        StartCoroutine(VerifyDistance(flag, baseController));
+    }
+
+    public void ObtainResource(Resource resource)
+    {
+        _targetResource = resource;
+
+        _botMover.AssignTarget(resource.gameObject);
+    }
+
+    public void AssignBase(BaseController baseController)
+    {
+        _baseController = baseController;
+    }
+
     private void UploadResource()
     {
         if (_botResourceCollector.IsCarryingResource)
@@ -50,47 +71,24 @@ public class BotController : MonoBehaviour
         }
     }
 
-    private IEnumerator VerifyDistance(FlagController flag, BaseController baseController)
+    private IEnumerator VerifyDistance(Transform flag, BaseController baseController)
     {
-        while(Vector3.Distance(transform.position, flag.transform.position) > 3f)
+        while(Vector3.Distance(transform.position, flag.position) > 1.5f)
         {
             yield return null;
         }
 
-        _botMover.ResetPath();
-
         CreateBase(flag, baseController);       
+
+        _botMover.ResetPath();
     }
 
-    private void CreateBase(FlagController flag, BaseController baseController)
+    private void CreateBase(Transform flag, BaseController baseController)
     {
-        var newBase = Instantiate(baseController, flag.transform.position, Quaternion.identity);
+        BaseController newBase = Instantiate(baseController, flag.position, Quaternion.identity);
 
         newBase.AddBotAvailable(this);
         _baseController = newBase;
         _baseController.DefaultBot();
-
-        Destroy(flag.gameObject);
-    }
-
-    public void CreateNewBase(FlagController flag, BaseController baseController)
-    {
-        _baseController = baseController;
-
-        _botMover.AssignTarget(flag.gameObject);
-
-        StartCoroutine(VerifyDistance(flag, baseController));
-    }
-
-    public void ObtainResource(Resource resource)
-    {
-        _targetResource = resource;
-
-        _botMover.AssignTarget(resource.gameObject);
-    }
-
-    public void AssignBase(BaseController baseController)
-    {
-        _baseController = baseController;
     }    
 }
