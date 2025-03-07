@@ -20,7 +20,7 @@ public class CollisionHandler : MonoBehaviour
 
         if(other.TryGetComponent(out FlagController flag))
         {
-            flag.gameObject.SetActive(false);
+            flag.Deactivate();
         }
     }
 }

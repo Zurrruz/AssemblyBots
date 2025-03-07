@@ -14,11 +14,11 @@ public class BaseController : MonoBehaviour
 
     private int _resourcesRequired = 5;
     private int _resourceCount = 0;
-    private int _botCount = 3;
     private int _minNumberBot = 1;
 
     private Coroutine _currentCoroutine;
 
+    private List<BotController> _bots;
     private Queue<BotController> _availableBots;
     private HashSet<Resource> assignedResources;
 
@@ -28,6 +28,7 @@ public class BaseController : MonoBehaviour
 
     private void Awake()
     {
+        _bots = new();
         _availableBots = new Queue<BotController>();
         assignedResources = new HashSet<Resource>();
     }
@@ -58,13 +59,16 @@ public class BaseController : MonoBehaviour
 
     public bool CanPlaceFlag()
     {
-        return _botCount > _minNumberBot;
+        return _bots.Count > _minNumberBot;
     }
 
     public void AddBotAvailable(BotController bot)
     {
         if (_availableBots.Contains(bot) == false)
             _availableBots.Enqueue(bot);
+
+        if (_bots.Contains(bot) == false)
+            _bots.Add(bot);
     }
 
     public void RemoveAssignedResource(Resource resource)
@@ -85,11 +89,6 @@ public class BaseController : MonoBehaviour
         _renderer.material.color = color;
     }
 
-    public void DefaultBot()
-    {
-        _botCount = 1;
-    }
-
     private void HandleResourceFound(Resource resource)
     {
         if (assignedResources.Contains(resource) == false)
@@ -108,11 +107,11 @@ public class BaseController : MonoBehaviour
         }
     }
 
-    private void ExpendResource(int numberResource)
+    private void ExpendResource(int numberResource, BotController bot)
     {
         _resourceCount -= numberResource;
 
-        _botCount++;
+        _bots.Add(bot);
 
         ResourceChanged?.Invoke(_resourceCount);
     }
@@ -121,7 +120,7 @@ public class BaseController : MonoBehaviour
     {
         while (IsBuildingNewBase == true)
         {
-            if (_resourceCount >= _resourcesRequired && _botCount > 1)
+            if (_resourceCount >= _resourcesRequired && _bots.Count > 1)
             {
                 if (_availableBots.Count > 0)
                 {
@@ -141,6 +140,8 @@ public class BaseController : MonoBehaviour
     private void SendUnitBuildNewBase()
     {
         BotController bot = _availableBots.Dequeue();
+
+        _bots.Remove(bot);
 
         bot.CreateNewBase(_flaInstaller.CurrentFlag.transform, _basePrefab);
     }

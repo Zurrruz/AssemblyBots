@@ -89,6 +89,5 @@ public class BotController : MonoBehaviour
 
         newBase.AddBotAvailable(this);
         _baseController = newBase;
-        _baseController.DefaultBot();
     }    
 }
